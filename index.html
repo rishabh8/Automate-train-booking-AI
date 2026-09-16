@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#102f2b" />
+    <title>RailReady — plan every booking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#dashboard" aria-label="RailReady home"><span class="brand-mark">R</span><span>railready</span></a>
+        <nav aria-label="Primary navigation">
+          <a class="nav-link active" href="#dashboard">Overview</a>
+          <a class="nav-link" href="#passengers">Passengers <span id="passengerCount" class="nav-count">0</span></a>
+          <a class="nav-link" href="#journeys">Journey plans <span id="journeyCount" class="nav-count">0</span></a>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="safe-note"><span>✦</span><p><strong>Your credentials stay with IRCTC.</strong><br />We never collect passwords, OTPs, CAPTCHA answers, or wallet PINs.</p></div>
+          <button class="text-button" id="resetData">Reset demo data</button>
+        </div>
+      </aside>
+
+      <section class="content">
+        <header class="topbar">
+          <p class="eyebrow">YOUR TRAVEL DESK</p>
+          <div class="profile"><span class="avatar">AS</span><span>Arun Shah</span><button class="icon-button" aria-label="Notifications">◌</button></div>
+        </header>
+
+        <section id="dashboard" class="page active-page" aria-labelledby="dashboardTitle">
+          <div class="hero-row"><div><p class="eyebrow">GOOD MORNING, ARUN</p><h1 id="dashboardTitle">Every detail, ready<br /><em>before the window opens.</em></h1><p class="intro">Prepare your journey once. We’ll keep the details in order and remind you when it’s time to book.</p></div><button class="primary-button" data-open-journey>+ Plan a journey</button></div>
+          <div class="notice"><span class="notice-icon">✓</span><p><strong>Booking stays in your hands.</strong> We prepare your trip and direct you to IRCTC for sign-in, verification, and payment.</p></div>
+          <div class="section-heading"><div><p class="eyebrow">UP NEXT</p><h2>Your booking desk</h2></div><a href="#journeys" class="inline-link">View all plans →</a></div>
+          <div id="upcomingPlans" class="plan-grid"></div>
+          <div class="section-heading lower"><div><p class="eyebrow">AT A GLANCE</p><h2>Travel readiness</h2></div></div>
+          <div class="metrics"><article><span class="metric-label">Saved passengers</span><strong id="metricPassengers">0</strong><small>ready to add to a plan</small></article><article><span class="metric-label">Plans ready</span><strong id="metricReady">0</strong><small>all details confirmed</small></article><article><span class="metric-label">Next reminder</span><strong id="metricReminder">—</strong><small>based on your plan</small></article></div>
+        </section>
+
+        <section id="passengers" class="page" aria-labelledby="passengersTitle">
+          <div class="hero-row compact"><div><p class="eyebrow">TRAVEL COMPANIONS</p><h1 id="passengersTitle">Passenger profiles</h1><p class="intro">Save the details you use most. You can change preferences for an individual journey later.</p></div><button class="primary-button" id="addPassenger">+ Add passenger</button></div>
+          <div id="passengerList" class="profile-list"></div>
+        </section>
+
+        <section id="journeys" class="page" aria-labelledby="journeysTitle">
+          <div class="hero-row compact"><div><p class="eyebrow">BOOKING PREPARATION</p><h1 id="journeysTitle">Journey plans</h1><p class="intro">Review and arrange each trip before you head to the official IRCTC flow.</p></div><button class="primary-button" data-open-journey>+ Plan a journey</button></div>
+          <div id="journeyList" class="journey-list"></div>
+        </section>
+      </section>
+    </main>
+
+    <dialog id="passengerDialog"><form method="dialog" id="passengerForm" class="dialog-card"><div class="dialog-title"><div><p class="eyebrow">TRAVEL COMPANION</p><h2>Add passenger</h2></div><button class="close" value="cancel" aria-label="Close">×</button></div><div class="form-grid"><label>Full name<input required name="name" placeholder="As on ID document" /></label><label>Age<input required name="age" type="number" min="1" max="120" placeholder="Years" /></label><label>Gender<select required name="gender"><option value="">Select</option><option>Female</option><option>Male</option><option>Other</option></select></label><label>Berth preference<select name="berth"><option>No preference</option><option>Lower berth</option><option>Middle berth</option><option>Upper berth</option><option>Side lower</option><option>Side upper</option></select></label><label class="full">Meal preference<select name="meal"><option>No meal preference</option><option>Vegetarian</option><option>Non-vegetarian</option><option>Jain meal</option></select></label></div><p class="form-note">Only save information you need for travel. Never add IRCTC passwords, OTPs, wallet PINs, or payment details here.</p><div class="dialog-actions"><button class="secondary-button" value="cancel">Cancel</button><button class="primary-button" value="default">Save passenger</button></div></form></dialog>
+
+    <dialog id="journeyDialog"><form method="dialog" id="journeyForm" class="dialog-card wide"><div class="dialog-title"><div><p class="eyebrow">NEW JOURNEY PLAN</p><h2>Set up your trip</h2></div><button class="close" value="cancel" aria-label="Close">×</button></div><div class="form-grid three"><label>Journey date<input required name="date" type="date" /></label><label>Train number<input required name="train" inputmode="numeric" pattern="[0-9]{5}" placeholder="e.g. 12951" /></label><label>Class<select required name="class"><option value="">Select</option><option>1A</option><option>2A</option><option>3A</option><option>SL</option><option>CC</option><option>2S</option></select></label><label>From<input required name="from" placeholder="Station or code" /></label><label>To<input required name="to" placeholder="Station or code" /></label><label>Quota<select required name="quota"><option>General</option><option>Tatkal</option><option>Premium Tatkal</option><option>Ladies</option><option>Senior citizen</option></select></label><fieldset class="full passenger-picker"><legend>Who is travelling?</legend><div id="passengerPicker"></div><p class="picker-empty">Add a passenger profile before creating a journey plan.</p></fieldset><label class="full check-label"><input name="waitlist" type="checkbox" /> I am willing to consider RAC / waitlist, if offered.</label></div><div class="dialog-actions"><button class="secondary-button" value="cancel">Cancel</button><button class="primary-button" value="default">Create booking plan</button></div></form></dialog>
+
+    <dialog id="reviewDialog"><div class="dialog-card review"><div class="dialog-title"><div><p class="eyebrow">FINAL REVIEW</p><h2 id="reviewTitle">Ready to book</h2></div><button class="close" id="closeReview" aria-label="Close">×</button></div><div id="reviewContent"></div><div class="compliance-card"><span>✓</span><p><strong>You are in control.</strong> Continue only when you are ready to complete IRCTC sign-in, CAPTCHA/OTP verification, and IRCTC Wallet payment yourself.</p></div><div class="dialog-actions"><button class="secondary-button" id="reviewBack">Back to plans</button><button class="primary-button" id="handoff">Continue to IRCTC ↗</button></div></div></dialog>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="/src/app.js"></script>
+  </body>
+</html>
